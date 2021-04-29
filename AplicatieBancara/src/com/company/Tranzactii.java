@@ -1,5 +1,13 @@
 package com.company;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Tranzactii {
 
     private String tipTranzactie;
@@ -23,4 +31,15 @@ public class Tranzactii {
                     ", Suma depusă: " + suma;
     }
 
+    public String getTipTranzactie() {
+        return tipTranzactie;
+    }
+
+    public String getDataTranzactie() {
+        return dataTranzactie;
+    }
+
+    public double getSuma() {
+        return suma;
+    }
 }

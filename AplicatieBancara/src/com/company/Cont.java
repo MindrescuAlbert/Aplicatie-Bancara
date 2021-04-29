@@ -16,10 +16,10 @@ public class Cont {
 
     }
 
-//    public double calculeazaDobanda(int numarAni) {
-//        System.out.println("Într-un cont normal veți primi o dobândă de " + (double)(0.02*totalBaniCont)*numarAni + " lei în " + numarAni + " ani");
-//        return (0.02 * totalBaniCont) * numarAni;
-//    }
+    public double calculeazaDobanda(int numarAni) {
+        System.out.println("Într-un cont normal veți primi o dobândă de " + (double)(0.02*totalBaniCont)*numarAni + " lei în " + numarAni + " ani");
+        return (0.02 * totalBaniCont) * numarAni;
+    }
 
     public void retrageBani (double sumaRetrasa, String dataTranzactie) {
         System.out.println("A fost retrasă suma de: " + sumaRetrasa + " lei, la data de " + dataTranzactie + ".");

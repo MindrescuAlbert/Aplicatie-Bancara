@@ -1,5 +1,12 @@
 package com.company;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,6 +22,41 @@ public class Main {
 
         Cont contNou = null;
         ContEconomii contNouEconomii = null;
+
+        Audit audit = new Audit();
+
+        try {
+            createFolder("My_Folder");
+
+            Tranzactii tranzactii = new Tranzactii("TranzactieDefault", "astazi", 0);
+
+            TranzactiiSingleton.getInstance().createFile("My_Folder/tranzactii.txt");
+            TranzactiiSingleton.getInstance().writeFiles("My_Folder/tranzactii.txt", tranzactii);
+            TranzactiiSingleton.getInstance().readAndPrintAllLines("My_Folder/tranzactii.txt");
+
+            Servicii servicii = new Servicii("Albert", "20 aprilie");
+
+            ServiciiSingleton.getInstance().createFile("My_Folder/servicii.txt");
+            ServiciiSingleton.getInstance().writeFiles("My_Folder/servicii.txt", servicii);
+            ServiciiSingleton.getInstance().readAndPrintAllLines("My_Folder/servicii.txt");
+
+            ContEconomii contEconomii = new ContEconomii("Albert", "19283791", extrasDeCont, "10 aprilie", 20000);
+
+            ContEconomiiSingleton.getInstance().createFile("My_Folder/contEconomii.txt");
+            ContEconomiiSingleton.getInstance().writeFiles("My_Folder/contEconomii.txt", contEconomii);
+            ContEconomiiSingleton.getInstance().readAndPrintAllLines("My_Folder/contEconomii.txt");
+
+            Imprumut imprumut = new Imprumut("Albert", "30 aprilie", 10000, 30);
+
+            ImprumutSingleton.getInstance().createFile("My_Folder/imprumut.txt");
+            ImprumutSingleton.getInstance().writeFiles("My_Folder/imprumut.txt", imprumut);
+            ImprumutSingleton.getInstance().readAndPrintAllLines("My_Folder/imprumut.txt");
+
+            // deleteFile("generatedFile.txt");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while (true) {
             System.out.println("Ce operație doriți să efectuați?");
@@ -45,6 +87,9 @@ public class Main {
 
                 extrasDeCont = new ExtrasDeCont();
                 contNou = clasaServiciu.creeazaCont(numeTitular, iban, extrasDeCont);
+
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un cont nou");
+
             }
 
             else if(numar == 2) {
@@ -59,6 +104,7 @@ public class Main {
                         String dataRetragere = scanner.nextLine();
 
                         contNou.retrageBani(sumaRetrasa, dataRetragere);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au retras bani din cont");
                     } else
                         System.out.println("Nu aveți destui bani în cont.\n");
                 }
@@ -77,6 +123,7 @@ public class Main {
                     String dataRetragere = scanner.nextLine();
 
                     contNou.depuneBani(sumaDepusa, dataRetragere);
+                    audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au depus bani in cont");
                 }
                 else
                     System.out.println("Nu aveți un cont creat.\n");
@@ -87,6 +134,7 @@ public class Main {
                     if(contNou.getExtrasDeCont().getLastIndex() != 0) {
                         System.out.println("Extrasul de cont cu toate tranzacțiile efectuate:\n");
                         clasaServiciu.afiseazaExtrasulDeCont(contNou);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a afisat extrasul de cont");
                     }
                     else
                         System.out.println("Nu aveți nicio tranzacție efectuată.\n");
@@ -110,6 +158,7 @@ public class Main {
                         String dataExpirare = scanner.nextLine();
 
                         Carduri cardNou = clasaServiciu.creeazaCard(numarCard, cvv, dataExpirare, contNou);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un card nou");
                     }
                 }
                 else
@@ -118,8 +167,10 @@ public class Main {
 
             else if(numar == 6) {
                 if(contNou != null) {
-                    if(contNou.getCard() != null)
+                    if(contNou.getCard() != null) {
                         clasaServiciu.afiseazaCard(contNou);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au afisat detaliile cardului");
+                    }
                     else
                         System.out.println("Nu aveți un card creat.\n");
                 }
@@ -144,6 +195,7 @@ public class Main {
 
                 extrasDeCont = new ExtrasDeCont();
                 contNouEconomii = clasaServiciu.creeazaContEconomii(numeTitular, iban, extrasDeCont, data, sumaMaximaAdmisa);
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un cont de economii nou");
             }
 
             else if(numar == 8) {
@@ -158,6 +210,7 @@ public class Main {
                         String dataRetragere = scanner.nextLine();
 
                         contNouEconomii.retrageBani(sumaRetrasa, dataRetragere);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au retras bani din contul de economii");
                     } else
                         System.out.println("Nu aveți destui bani în contul de economii.\n");
                 }
@@ -176,6 +229,7 @@ public class Main {
                     String dataRetragere = scanner.nextLine();
 
                     contNouEconomii.depuneBani(sumaDepusa, dataRetragere);
+                    audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au depus bani in contul de economii");
                 }
                 else
                     System.out.println("Nu aveți un cont de economii creat.\n");
@@ -188,6 +242,7 @@ public class Main {
                     scanner.nextLine();
 
                     System.out.println("Dobânda este egală cu " + contNouEconomii.calculeazaDobanda(ani) + " lei");
+                    audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a calculat dobanda pentru contul de economii");
                 }
                 else
                     System.out.println("Nu aveți un cont de economii creat.\n");
@@ -205,12 +260,14 @@ public class Main {
                         scanner.nextLine();
 
                         clasaServiciu.imprumut(suma, contNou);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a cerut un imprumut");
                     }
                     else if (alegere == "ComandaCard") {
                         System.out.println("Ce culoare doriți să fie cardul?");
                         String culoare = scanner.nextLine();
 
                         clasaServiciu.comandaCard(culoare);
+                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a dat comanda de card");
                     }
                     else
                         System.out.println("Ați introdus greșit tipul serviciului");
@@ -221,12 +278,26 @@ public class Main {
 
             else if(numar == 12) {
                 System.out.println("Vă mulțumim! O zi bună!");
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a iesit din program");
                 break;
             }
 
+
         }
+    }
 
+    private static void createFolder(String folderName) throws IOException  {
+        Path path = Paths.get(folderName);
+        Files.createDirectories(path);
+    }
 
+    private static void listContentFolder(String folderName) throws IOException {
+        Path path = Paths.get(folderName);
+        Files.list(path).forEach(elem -> System.out.println(elem));
+    }
 
+    private static void deleteFile(String fileName) throws IOException  {
+        Path path = Paths.get(fileName);
+        Files.delete(path);
     }
 }

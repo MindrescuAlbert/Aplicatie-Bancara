@@ -1,5 +1,7 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Arrays;
 
 public class ClasaServiciu {
@@ -50,3 +52,5 @@ public class ClasaServiciu {
         System.out.println("Cardul dumneavoastră va avea culoarea " + culoare + " și va fi livrat cât de curând.");
     }
 }
+
+
