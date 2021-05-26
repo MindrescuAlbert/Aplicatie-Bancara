@@ -11,34 +11,12 @@ public class ClasaServiciu {
     public ClasaServiciu() {
     }
 
-    public Cont creeazaCont (String numeTitular, String iban, ExtrasDeCont extrasDeCont) {
-        return new Cont(numeTitular, iban, extrasDeCont);
-    }
+   // public Cont creeazaCont (String numeTitular, String iban, ExtrasDeCont extrasDeCont) {
+   //     return new Cont(0, numeTitular, iban, extrasDeCont);
+  //  }
 
-    public void afiseazaExtrasulDeCont (Cont cont) {
-
-        for (int i = 0; i < cont.getExtrasDeCont().getLastIndex(); i++) {
-            System.out.println(cont.getExtrasDeCont().getTranzactii()[i]);
-        }
-        System.out.println();
-    }
-
-    public Carduri creeazaCard (String numarCard, String cvv, String dataExpirare, Cont cont) {
-
-        Carduri cardNou = new Carduri(numarCard, cont.getNumeTitular(), cvv, dataExpirare, cont);
-        System.out.println("Cardul a fost creat.\n");
-
-        cont.setCard(cardNou);
-        return cardNou;
-    }
-
-    public void afiseazaCard (Cont cont) {
-        System.out.println(cont.getCard());
-        System.out.println();
-    }
-
-    public ContEconomii creeazaContEconomii (String numeTitular, String iban, ExtrasDeCont extrasDeCont, String dataExpirare, double sumaMaximaAdmisa) {
-        return new ContEconomii(numeTitular, iban, extrasDeCont, dataExpirare, sumaMaximaAdmisa);
+    public ContEconomii creeazaContEconomii (int id, String numeTitular, String iban, double totalBaniCont, String dataExpirare, double sumaMaximaAdmisa) {
+        return new ContEconomii(id, numeTitular, iban, totalBaniCont, dataExpirare, sumaMaximaAdmisa);
     }
 
     public void imprumut (double suma, Cont cont) {

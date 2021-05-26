@@ -11,8 +11,8 @@ public class Imprumut extends Servicii {
     private double sumaCeruta;
     private double dobanda;
 
-    public Imprumut(String numePersoana, String dataCerere, double sumaCeruta, double dobanda) {
-        super(numePersoana, dataCerere);
+    public Imprumut(int id, String numePersoana, String dataCerere, double sumaCeruta, double dobanda) {
+        super(id, numePersoana, dataCerere);
         this.sumaCeruta = sumaCeruta;
         this.dobanda = dobanda;
     }

@@ -10,11 +10,13 @@ import java.nio.file.Paths;
 
 public class Tranzactii {
 
+    private int id;
     private String tipTranzactie;
     private String dataTranzactie;
     private double suma;
 
-    public Tranzactii(String tipTranzactie, String dataTranzactie, double suma) {
+    public Tranzactii(int id, String tipTranzactie, String dataTranzactie, double suma) {
+        this.id = id;
         this.tipTranzactie = tipTranzactie;
         this.dataTranzactie = dataTranzactie;
         this.suma = suma;

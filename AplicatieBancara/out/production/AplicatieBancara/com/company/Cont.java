@@ -2,17 +2,17 @@ package com.company;
 
 public class Cont {
 
+    private int id;
     private String numeTitular;
-    private double totalBaniCont;
     private String IBAN;
-    private ExtrasDeCont extrasDeCont;
-    private Carduri card;
+    private double totalBaniCont;
 
-    public Cont(String numeTitular, String IBAN, ExtrasDeCont extrasDeCont) {
+    public Cont(int id, String numeTitular, String IBAN, double totalBaniCont) {
+        this.id = id;
         this.numeTitular = numeTitular;
-        this.totalBaniCont = 0;
         this.IBAN = IBAN;
-        this.extrasDeCont = extrasDeCont;
+        this.totalBaniCont = totalBaniCont;
+
 
     }
 
@@ -25,8 +25,7 @@ public class Cont {
         System.out.println("A fost retrasă suma de: " + sumaRetrasa + " lei, la data de " + dataTranzactie + ".");
         totalBaniCont = totalBaniCont - sumaRetrasa;
 
-        Tranzactii tranzactie = new Tranzactii("Retragere", dataTranzactie, sumaRetrasa);
-        extrasDeCont.adaugaTranzactie(tranzactie);
+        Tranzactii tranzactie = new Tranzactii(1, "Retragere", dataTranzactie, sumaRetrasa);
 
         System.out.println("În cont au rămas " + totalBaniCont + " lei.\n");
     }
@@ -35,8 +34,7 @@ public class Cont {
         System.out.println("A fost depusă suma de: " + sumaDepusa + " lei, la data de " + dataTranzactie + ".");
         totalBaniCont = totalBaniCont + sumaDepusa;
 
-        Tranzactii tranzactie = new Tranzactii("Depunere", dataTranzactie, sumaDepusa);
-        extrasDeCont.adaugaTranzactie(tranzactie);
+        Tranzactii tranzactie = new Tranzactii(2,"Depunere", dataTranzactie, sumaDepusa);
 
         System.out.println("Acum sunt în cont " + totalBaniCont + " lei.\n");
     }
@@ -65,19 +63,4 @@ public class Cont {
         this.IBAN = IBAN;
     }
 
-    public ExtrasDeCont getExtrasDeCont() {
-        return extrasDeCont;
-    }
-
-    public void setExtrasDeCont(ExtrasDeCont extrasDeCont) {
-        this.extrasDeCont = extrasDeCont;
-    }
-
-    public Carduri getCard() {
-        return card;
-    }
-
-    public void setCard(Carduri card) {
-        this.card = card;
-    }
 }
