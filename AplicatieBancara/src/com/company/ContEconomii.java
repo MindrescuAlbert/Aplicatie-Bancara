@@ -12,8 +12,8 @@ public class ContEconomii extends Cont {
     private double sumaMaximaAdmisa;
     private double totalBaniCont;
 
-    public ContEconomii(String numeTitular, String IBAN, ExtrasDeCont extrasDeCont, String dataUtilizare, double sumaMaximaAdmisa) {
-        super(numeTitular, IBAN, extrasDeCont);
+    public ContEconomii(int id, String numeTitular, String IBAN, double totalBaniCont, String dataUtilizare, double sumaMaximaAdmisa) {
+        super(id, numeTitular, IBAN, totalBaniCont);
         this.dataUtilizare = dataUtilizare;
         this.sumaMaximaAdmisa = sumaMaximaAdmisa;
         totalBaniCont = 0;

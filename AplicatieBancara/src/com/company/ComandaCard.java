@@ -5,8 +5,8 @@ public class ComandaCard extends Servicii {
     private String culoareCard;
     private Carduri numarCard;
 
-    public ComandaCard(String numePersoana, String dataCerere, String dataLivrare, String culoareCard, Carduri numarCard) {
-        super(numePersoana, dataCerere);
+    public ComandaCard(int id, String numePersoana, String dataCerere, String dataLivrare, String culoareCard, Carduri numarCard) {
+        super(id, numePersoana, dataCerere);
         this.culoareCard = culoareCard;
         this.numarCard = numarCard;
     }

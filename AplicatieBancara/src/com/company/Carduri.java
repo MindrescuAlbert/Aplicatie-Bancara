@@ -2,18 +2,20 @@ package com.company;
 
 public class Carduri {
 
+    private int id;
     private String numarCard;
     private String numeDetinator;
     private String CVV;
     private String dataExpirare;
-    private Cont cont;
+    private int id_cont;
 
-    public Carduri(String numarCard, String numeDetinator, String CVV, String dataExpirare, Cont cont) {
+    public Carduri(int id, String numarCard, String numeDetinator, String CVV, String dataExpirare, int id_cont) {
+        this.id = id;
         this.numarCard = numarCard;
         this.numeDetinator = numeDetinator;
         this.CVV = CVV;
         this.dataExpirare = dataExpirare;
-        this.cont = cont;
+        this.id_cont = id_cont;
     }
 
     public String getNumarCard() {
@@ -48,17 +50,16 @@ public class Carduri {
         this.dataExpirare = dataExpirare;
     }
 
-    public Cont getNumeTitularCont() {
-        return cont;
+    public int getId_cont() {
+        return id_cont;
     }
 
-    public void setNumeTitularCont(Cont numeTitularCont) {
-        this.cont = numeTitularCont;
+    public void setId_cont(int id_cont) {
+        this.id_cont = id_cont;
     }
 
     public String toString() {
-        return  "Nume deținător card: " + cont.getNumeTitular() +
-                "\nNumăr card: " + numarCard +
+        return  "Număr card: " + numarCard +
                 "\nCVV: " + CVV +
                 "\nData expirare: " + dataExpirare;
     }

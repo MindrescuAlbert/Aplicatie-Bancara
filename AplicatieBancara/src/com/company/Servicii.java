@@ -8,10 +8,12 @@ import java.nio.file.Paths;
 
 public class Servicii {
 
+    private int id;
     private String numePersoana;
     private String dataCerere;
 
-    public Servicii(String numePersoana, String dataCerere) {
+    public Servicii(int id, String numePersoana, String dataCerere) {
+        this.id = id;
         this.numePersoana = numePersoana;
         this.dataCerere = dataCerere;
     }

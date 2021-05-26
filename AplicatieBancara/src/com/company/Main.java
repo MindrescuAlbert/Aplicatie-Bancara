@@ -9,10 +9,36 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Scanner;
+import JDBC.SetUpDataUsingStatement;
+import Repository.CarduriRepository;
+import Repository.ContRepository;
+import Repository.ServiciiRepository;
+import Repository.TranzactiiRepository;
+import java.util.Optional;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        TranzactiiRepository tranzactiiRepository = new TranzactiiRepository();
+        // tranzactiiRepository.updateSuma(1000.0, 1);
+        // tranzactiiRepository.getAllTranzactions();
+
+        ServiciiRepository serviciiRepository = new ServiciiRepository();
+        //   serviciiRepository.createTable();
+        //   serviciiRepository.getAllServices();
+        //  tranzactiiRepository.insert("Retragere", "18 iulie 2021", 2000);
+        // tranzactiiRepository.insert(new Tranzactii(2,"Depunere", "10 iunie 2021", 100));
+
+        ContRepository contRepository = new ContRepository();
+        //   contRepository.createTable();
+        //   contRepository.getAllAccounts();
+
+        CarduriRepository carduriRepository = new CarduriRepository();
+        //   carduriRepository.createTable();
+        //  carduriRepository.getAllCards();
+
+        /*
 
         Scanner scanner = new Scanner(System.in);
         ClasaServiciu clasaServiciu = new ClasaServiciu();
@@ -22,13 +48,17 @@ public class Main {
 
         Cont contNou = null;
         ContEconomii contNouEconomii = null;
+        int contorCont = 0;
 
         Audit audit = new Audit();
 
+        */
+
+        /*
         try {
             createFolder("My_Folder");
 
-            Tranzactii tranzactii = new Tranzactii("TranzactieDefault", "astazi", 0);
+            Tranzactii tranzactii = new Tranzactii(0,"TranzactieDefault", "astazi", 0);
 
             TranzactiiSingleton.getInstance().createFile("My_Folder/tranzactii.txt");
             TranzactiiSingleton.getInstance().writeFiles("My_Folder/tranzactii.txt", tranzactii);
@@ -58,18 +88,20 @@ public class Main {
             e.printStackTrace();
         }
 
+    */
+        /*
         while (true) {
             System.out.println("Ce operație doriți să efectuați?");
             System.out.println("1 - Creează un cont bancar");
             System.out.println("2 - Retrage bani");
             System.out.println("3 - Depune bani");
-            System.out.println("4 - Afișează extrasul de cont");
+            System.out.println("4 - Afișează toate tranzactiile efectuate");
             System.out.println("5 - Creează un card");
             System.out.println("6 - Afișează detalii card");
-            System.out.println("7 - Creează un cont de economii");
-            System.out.println("8 - Retrage bani din contul de economii");
-            System.out.println("9 - Depune bani în contul de economii");
-            System.out.println("10 - Calculează dobânda pentru contul de economii");
+          //  System.out.println("7 - Creează un cont de economii");
+          //  System.out.println("8 - Retrage bani din contul de economii");
+          //  System.out.println("9 - Depune bani în contul de economii");
+          //  System.out.println("10 - Calculează dobânda pentru contul de economii");
             System.out.println("11 - Alte servicii");
             System.out.println("12 - Ieșire");
 
@@ -85,25 +117,34 @@ public class Main {
                 String iban = scanner.nextLine();
                 System.out.println();
 
-                extrasDeCont = new ExtrasDeCont();
-                contNou = clasaServiciu.creeazaCont(numeTitular, iban, extrasDeCont);
+
+                contRepository.insert(numeTitular, iban, 0);
+                contNou = new Cont (contorCont, numeTitular, iban, 0);
+                contorCont += 1;
 
                 audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un cont nou");
 
             }
 
             else if(numar == 2) {
-                if(contNou != null) {
-                    System.out.println("Ce sumă doriți să retrageți?");
+                if(contorCont != 0) {
+                    System.out.println("Ce id are contul din care retrageti banii?");
 
-                    int sumaRetrasa = scanner.nextInt();
+                    int id = scanner.nextInt();
                     scanner.nextLine();
+
+                    System.out.println("Ce sumă doriți să pastrati in contul dumneavoastra?");
+
+                    double sumaRetrasa = scanner.nextInt();
+                    scanner.nextLine();
+
 
                     if (sumaRetrasa <= contNou.getTotalBaniCont()) {
                         System.out.println("La ce dată doriți să retrageți banii?");
                         String dataRetragere = scanner.nextLine();
 
-                        contNou.retrageBani(sumaRetrasa, dataRetragere);
+                        contRepository.updateSuma(sumaRetrasa, id);
+                        tranzactiiRepository.insert("Retragere", "Astazi", sumaRetrasa);
                         audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au retras bani din cont");
                     } else
                         System.out.println("Nu aveți destui bani în cont.\n");
@@ -114,70 +155,73 @@ public class Main {
 
             else if(numar == 3) {
                 if(contNou != null) {
-                    System.out.println("Ce sumă doriți să depuneți?");
+                    System.out.println("Ce id are contul din care retrageti banii?");
 
-                    int sumaDepusa = scanner.nextInt();
+                    int id = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.println("Ce sumă doriți să pastrati in contul dumneavoastra?");
+
+                    double sumaDepusa = scanner.nextInt();
                     scanner.nextLine();
 
                     System.out.println("La ce dată doriți să depuneți banii?");
                     String dataRetragere = scanner.nextLine();
 
-                    contNou.depuneBani(sumaDepusa, dataRetragere);
+                    contRepository.updateSuma(sumaDepusa, id);
+                    tranzactiiRepository.insert("Depunere", "Astazi", sumaDepusa);
+                    //contNou.depuneBani(sumaDepusa, dataRetragere);
                     audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au depus bani in cont");
                 }
                 else
                     System.out.println("Nu aveți un cont creat.\n");
             }
 
+
             else if(numar == 4) {
-                if(contNou != null) {
-                    if(contNou.getExtrasDeCont().getLastIndex() != 0) {
-                        System.out.println("Extrasul de cont cu toate tranzacțiile efectuate:\n");
-                        clasaServiciu.afiseazaExtrasulDeCont(contNou);
-                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a afisat extrasul de cont");
-                    }
-                    else
-                        System.out.println("Nu aveți nicio tranzacție efectuată.\n");
-                }
-                else
-                    System.out.println("Nu aveți un cont creat.\n");
+
+                tranzactiiRepository.getAllTranzactions();
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au afisat toate tranzactiile efectuate.");
+
             }
+
 
             else if(numar == 5) {
-                if(contNou != null) {
-                    if(contNou.getCard() != null)
-                        System.out.println("Aveți deja un card creat.\n");
-                    else {
-                        System.out.println("Introduceți numărul cardului:");
-                        String numarCard = scanner.nextLine();
 
-                        System.out.println("Introduceți CVV-ul:");
-                        String cvv = scanner.nextLine();
+                System.out.println("Introduceți numărul cardului:");
+                String numarCard = scanner.nextLine();
 
-                        System.out.println("Introduceți data de expirare:");
-                        String dataExpirare = scanner.nextLine();
+                System.out.println("Introduceți numele detinatorului:");
+                String numeDetinator = scanner.nextLine();
 
-                        Carduri cardNou = clasaServiciu.creeazaCard(numarCard, cvv, dataExpirare, contNou);
-                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un card nou");
-                    }
-                }
-                else
-                    System.out.println("Nu aveți un cont creat.\n");
+                System.out.println("Introduceți CVV-ul:");
+                String cvv = scanner.nextLine();
+
+                System.out.println("Introduceți data de expirare:");
+                String dataExpirare = scanner.nextLine();
+
+                System.out.println("Introduceti id-ul contului asociat noului card.");
+                int id = scanner.nextInt();
+
+                carduriRepository.insert(numarCard, numeDetinator, cvv, dataExpirare, id);
+                //Carduri cardNou = clasaServiciu.creeazaCard(numarCard, cvv, dataExpirare, contNou);
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a creat un card nou");
+
             }
+
 
             else if(numar == 6) {
-                if(contNou != null) {
-                    if(contNou.getCard() != null) {
-                        clasaServiciu.afiseazaCard(contNou);
-                        audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au afisat detaliile cardului");
-                    }
-                    else
-                        System.out.println("Nu aveți un card creat.\n");
-                }
-                else
-                    System.out.println("Nu aveți un cont creat.\n");
+
+                System.out.println("Care este id-ul cardului pentru care doriti afisarea?");
+                int id = scanner.nextInt();
+
+                carduriRepository.getById(id);
+                audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-au afisat detaliile cardului");
             }
 
+
+         */
+            /*
             else if(numar == 7) {
                 System.out.println("Care este numele titularului de cont?");
                 String numeTitular = scanner.nextLine();
@@ -218,6 +262,7 @@ public class Main {
                     System.out.println("Nu aveți un cont de economii creat.\n");
             }
 
+
             else if(numar == 9) {
                 if(contNouEconomii != null) {
                     System.out.println("Ce sumă doriți să depuneți?");
@@ -247,17 +292,23 @@ public class Main {
                 else
                     System.out.println("Nu aveți un cont de economii creat.\n");
             }
-
+            */
+        /*
             else if(numar == 11) {
                 if(contNou != null) {
-                    System.out.println("Alege tipul serviciului: Imprumut / ComandaCard");
+                    System.out.println("Va rugam sa va introduceti numele: ");
+                    String nume = scanner.nextLine();
 
+                    System.out.println("Alege tipul serviciului: Imprumut / ComandaCard");
                     String alegere = scanner.nextLine();
+
+                    serviciiRepository.insert(nume, "Astazi");
 
                     if (alegere == "Imprumut") {
                         System.out.println("Ce sumă doriți să împrumutați?");
                         double suma = scanner.nextDouble();
                         scanner.nextLine();
+
 
                         clasaServiciu.imprumut(suma, contNou);
                         audit.writeFiles("My_Folder/operatiiEfectuate.txt", "S-a cerut un imprumut");
@@ -300,4 +351,7 @@ public class Main {
         Path path = Paths.get(fileName);
         Files.delete(path);
     }
+    */
+    }
+
 }
